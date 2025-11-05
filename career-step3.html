@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Suggestions</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Tell Us About Yourself</h1>
+
+    <form id="careerForm">
+      <label>What are your top skills?</label>
+      <input type="text" id="skills" placeholder="e.g. coding, design, writing" required>
+
+      <label>What are your interests?</label>
+      <input type="text" id="interests" placeholder="e.g. AI, healthcare, finance" required>
+
+      <label>Preferred work style</label>
+      <select id="workstyle">
+        <option value="Remote">Remote</option>
+        <option value="Hybrid">Hybrid</option>
+        <option value="Onsite">Onsite</option>
+      </select>
+
+      <button type="submit">Get Career Suggestions</button>
+    </form>
+
+    <div id="result">
+      <h2>Suggested Careers:</h2>
+      <div id="suggestions">Your AI-powered suggestions will appear here...</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("careerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const skills = document.getElementById("skills").value;
+      const interests = document.getElementById("interests").value;
+      const workstyle = document.getElementById("workstyle").value;
+
+      const response = await fetch("/api/career-suggestions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skills, interests, workstyle })
+      });
+
+      const data = await response.json();
+      document.getElementById("suggestions").innerHTML = data.suggestions || "No suggestions found.";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career AI Suggestions</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #7f7fd5, #86a8e7, #91eae4);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px;
+    }
+    h1 {
+      color: #fff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+    form {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      max-width: 400px;
+      width: 100%;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: 600;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #result {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎯 Career AI Suggestions</h1>
+  <form>
+    <label>What are your top skills?</label>
+    <input type="text" id="skills" name="skills" placeholder="e.g. coding, communication" required>
+
+    <label>What are your interests?</label>
+    <input type="text" id="interests" name="interests" placeholder="e.g. design, teaching" required>
+
+    <label>Preferred work style</label><br>
+    <input type="radio" name="workstyle" value="Remote"> Remote
+    <input type="radio" name="workstyle" value="On-site"> On-site
+    <input type="radio" name="workstyle" value="Hybrid"> Hybrid
+
+    <button type="submit">Get Career Suggestions</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+  document.querySelector("form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const skills = document.querySelector("#skills").value;
+    const interests = document.querySelector("#interests").value;
+    const workstyle = document.querySelector('input[name="workstyle"]:checked')?.value || '';
+
+    const response = await fetch("/get-career-suggestions", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ skills, interests, workstyle })
+    });
+
+    const data = await response.json();
+    const resultDiv = document.querySelector("#result");
+    resultDiv.innerHTML = data.success
+      ? `<h3>✨ AI Suggestions:</h3><p>${data.suggestions}</p>`
+      : `<p>❌ Failed to get suggestions</p>`;
+  });
+  </script>
+</body>
+</html>

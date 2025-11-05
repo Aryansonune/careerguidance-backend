@@ -1,0 +1,210 @@
+/* General Reset */
+body {
+  font-family: 'Kumbh Sans', sans-serif;
+  background: linear-gradient(to right, #e3f2fd, #e1f5fe);
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+.navbar {
+  background: white;
+  padding: 15px 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.logo {
+  color: #0056d2;
+  margin: 0;
+}
+
+/* Login Container */
+.login-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 50px auto;
+  width: 90%;
+  max-width: 1100px;
+  background: #f9fbff;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* Left info section */
+.login-info {
+  flex: 1;
+  margin-right: 40px;
+}
+.login-info h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.login-info ul {
+  list-style: none;
+  padding: 0;
+}
+.login-info li {
+  margin: 8px 0;
+  font-size: 16px;
+}
+.login-info img {
+  margin-top: 20px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Right login box */
+.login-box {
+  flex: 1;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.login-box h2 {
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+.login-box p {
+  margin-bottom: 20px;
+  color: #666;
+}
+.login-box label {
+  display: block;
+  margin: 10px 0 5px;
+  font-weight: bold;
+}
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background: #0056d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.login-box button:hover {
+  background: #0041a8;
+}
+.forgot {
+  display: block;
+  text-align: right;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+.create {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+.create a {
+  color: #0056d2;
+  text-decoration: none;
+}
+
+/* Form Section */
+.form-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+}
+
+.form-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  font-family: 'Kumbh Sans', sans-serif;
+}
+
+.form-container h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.form-container p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.form-container input,
+.form-container select,
+.form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 18px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.form-container .btn {
+  display: inline-block;
+  background: #0077cc;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+.form-container .btn:hover {
+  background: #005fa3;
+}
+
+body {
+  font-family: "Google Sans", "Kumbh Sans", sans-serif;
+  background-color: #e6f4f9;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  color: #0073e6;
+}
+
+form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #0073e6;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #005bb5;
+}

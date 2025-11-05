@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Guidance App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Guidance Login</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #e3f2fd, #e1f5fe);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+      color: #1976d2;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      max-width: 1100px;
+      margin: 40px auto;
+      gap: 40px;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .info h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .info p {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #444;
+    }
+
+    .info ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .info img {
+      max-width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .login-box {
+      flex: 0.8;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .login-box h3 {
+      margin-top: 0;
+      font-size: 20px;
+    }
+
+    .login-box label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 14px;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: #0d47a1;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .login-box button:hover {
+      background: #1565c0;
+    }
+
+    .links {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .links a {
+      color: #1976d2;
+      text-decoration: none;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Career Guidance App</h1>
+  </header>
+
+  <div class="container">
+    <!-- Left Section -->
+    <div class="info">
+      <h2>Grow with clarity</h2>
+      <p>Track progress, close skill gaps, and land roles you love.</p>
+      <ul>
+        <li>Smart role matching</li>
+        <li>Actionable skill plans</li>
+      </ul>
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Team working">
+    </div>
+
+    <!-- Right Section -->
+    <div class="login-box">
+      <h3>Sign in</h3>
+      <form action="/login" method="POST">
+        <label>Email</label>
+        <input type="email" name="username" placeholder="Enter your email" required>
+        
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter your password" required>
+
+        <button type="submit">Sign in</button>
+
+        <div class="links">
+          <a href="forgot.html">Forgot password?</a>
+          <a href="register.html">Create account</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

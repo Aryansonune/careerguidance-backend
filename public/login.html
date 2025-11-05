@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Career Guidance App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <title>Career Guidance Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-blue-50 flex items-center justify-center min-h-screen">
+  <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-lg grid md:grid-cols-2 overflow-hidden">
+    
+    <!-- Left section -->
+    <div class="p-10 bg-gradient-to-b from-blue-100 to-blue-200">
+      <h1 class="text-3xl font-bold mb-4">Grow with clarity</h1>
+      <p class="mb-4 text-gray-700">Track progress, close skill gaps, and land roles you love.</p>
+      <ul class="space-y-2 text-green-700 font-medium">
+        <li>✔ Smart role matching</li>
+        <li>✔ Actionable skill plans</li>
+        <li>✔ Mentor-led guidance</li>
+      </ul>
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" class="mt-6 rounded-lg shadow" alt="Teamwork" />
+    </div>
+
+    <!-- Right section -->
+    <div class="p-10 flex flex-col justify-center">
+      <h2 class="text-2xl font-semibold mb-2">Sign in</h2>
+      <p class="mb-6 text-gray-600">Continue your journey</p>
+      
+      <form action="/login" method="POST" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium">Email</label>
+          <input type="text" name="username" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-400">
+        </div>
+        <div>
+          <label class="block text-sm font-medium">Password</label>
+          <input type="password" name="password" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-400">
+        </div>
+        <div class="flex justify-between text-sm text-blue-600">
+          <p class="text-sm text-gray-500">
+          <a href="/forgotpassword" class="text-blue-600 hover:underline">Forgot password?</a>
+          </p>
+          <a href="/register.html">Create account</a>
+        </div>
+        <button type="submit" class="w-full bg-blue-900 text-white py-2 rounded-lg hover:bg-blue-700">Sign in</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
