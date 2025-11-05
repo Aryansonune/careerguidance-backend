@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Career Suggestions</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#f6fbfd; padding:40px;}
+    .card{max-width:680px;margin:0 auto;background:#fff;border-radius:12px;padding:28px;box-shadow:0 8px 30px rgba(50,50,93,.07);}
+    h1{margin:0 0 12px 0}
+    input[type=text]{width:100%;padding:12px;border-radius:8px;border:1px solid #e6eef6;margin-bottom:12px;}
+    button{background:#0576ff;color:white;padding:10px 16px;border:none;border-radius:10px;cursor:pointer;}
+    pre{background:#f4f7fb;padding:12px;border-radius:8px;white-space:pre-wrap;}
+    .error{background:#fff0f0;padding:10px;border-radius:8px;color:#800;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🎯 Career Suggestions</h1>
+    <p>Enter your interests and get AI-powered career ideas.</p>
+    <input id="preferences" type="text" placeholder="e.g. creative, technology, art" value="drawing, painting" />
+    <button id="ask">Get Career Suggestions</button>
+
+    <div id="status" style="margin-top:12px"></div>
+    <div id="result" style="margin-top:12px"></div>
+  </div>
+
+  <script>
+    document.getElementById("ask").addEventListener("click", async () => {
+      const pref = document.getElementById("preferences").value.trim();
+      const statusDiv = document.getElementById("status");
+      const resultDiv = document.getElementById("result");
+      statusDiv.textContent = '';
+      resultDiv.innerHTML = '';
+
+      if (!pref) {
+        statusDiv.innerHTML = '<div class="error">Please enter your interests.</div>';
+        return;
+      }
+
+      statusDiv.textContent = '⏳ Asking server...';
+      try {
+        const resp = await fetch('/api/suggestions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ preferences: pref })
+        });
+
+        const data = await resp.json();
+        if (!resp.ok) {
+          statusDiv.innerHTML = '<div class="error">🚨 Error connecting to server.</div>';
+          resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+          return;
+        }
+
+        statusDiv.textContent = '✅ Suggestions received:';
+        // If service returned parsed suggestions
+        if (data.suggestions) {
+          resultDiv.innerHTML = '<pre>' + data.suggestions + '</pre>';
+        } else {
+          // fallback: show raw response
+          resultDiv.innerHTML = '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+        }
+      } catch (err) {
+        statusDiv.innerHTML = '<div class="error">🚨 Error connecting to server.</div>';
+        resultDiv.innerHTML = '<pre>' + String(err) + '</pre>';
+      }
+    });
+  </script>
+</body>
+</html>

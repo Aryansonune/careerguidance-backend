@@ -1,69 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Career Choices</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Career Suggestions</title>
+
+  <!-- Simple styles, mobile-friendly -->
+  <style>
+    :root {
+      --bg: #f4f8fb;
+      --card: #fff;
+      --accent: #0b76ff;
+      --muted: #6b7280;
+    }
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{background:linear-gradient(180deg,#f1f7ff 0%,var(--bg) 80%);display:flex;align-items:flex-start;justify-content:center;padding:36px;}
+    .container{width:100%;max-width:680px;background:transparent;padding:18px;}
+    .card{background:var(--card);border-radius:12px;padding:28px;box-shadow:0 6px 18px rgba(20,30,60,0.06)}
+    h1{font-size:28px;margin:0 0 6px;color:#0f1724}
+    p.lead{color:var(--muted);margin:6px 0 22px}
+    .field{display:flex;gap:12px;align-items:center}
+    input[type="text"]{
+      flex:1;padding:14px 16px;border-radius:12px;border:1px solid #e6eefb;font-size:16px;
+      outline:none;background:#fbfdff;
+    }
+    button{
+      background:var(--accent);color:white;border:none;padding:12px 18px;border-radius:10px;font-weight:600;
+      cursor:pointer;font-size:16px;box-shadow:0 6px 14px rgba(11,118,255,0.18);
+    }
+    button[disabled]{opacity:.6;cursor:not-allowed}
+    .status{margin-top:18px;padding:12px;border-radius:10px;background:#fff7f0;color:#7a2e00;border:1px solid #ffd9c3;display:none}
+    .output{margin-top:18px;padding:18px;border-radius:10px;background:#fbfdff;border:1px solid #e6eefb;min-height:70px;white-space:pre-wrap}
+    .muted{color:var(--muted);font-size:14px}
+    .spinner {
+      display:inline-block;width:18px;height:18px;border-radius:50%;border:3px solid rgba(0,0,0,0.06);border-top-color:var(--accent);animation:spin 1s linear infinite;margin-right:8px;vertical-align:middle;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .small{font-size:13px;color:#475569;margin-top:8px}
+  </style>
 </head>
-<body class="bg-blue-50 min-h-screen flex flex-col items-center justify-center">
-  <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl">
-    <h1 class="text-3xl font-bold text-center text-blue-900 mb-6">Career Guidance App</h1>
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">Tell us about yourself</h2>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>🎯 Career Suggestions</h1>
+      <p class="lead">Enter your interests and get AI-powered career ideas (3 concise options).</p>
 
-    <!-- Combined Form -->
-    <form id="careerForm" method="POST" action="/career-choices" class="space-y-4">
-      <!-- Skills -->
-      <div>
-        <label class="block font-medium text-gray-700 mb-1">What are your top skills?</label>
-        <input type="text" name="skills" placeholder="e.g. coding, design, writing"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400" required />
+      <div class="field">
+        <input id="preferencesInput" type="text" placeholder="e.g. creative, data science, remote work" aria-label="Interests" />
+        <button id="suggestBtn" type="button">Get Career Suggestions</button>
       </div>
 
-      <!-- Interests -->
-      <div>
-        <label class="block font-medium text-gray-700 mb-1">What are your interests?</label>
-        <input type="text" name="interests" placeholder="e.g. AI, healthcare, finance"
-          class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400" required />
-      </div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
 
-      <!-- Work style -->
-      <div>
-        <label class="block font-medium text-gray-700 mb-1">Preferred work style</label>
-        <select name="workstyle" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400" required>
-          <option value="Remote">Remote</option>
-          <option value="On-site">On-site</option>
-          <option value="Hybrid">Hybrid</option>
-        </select>
-      </div>
+      <div id="result" class="output" aria-live="polite">No suggestions yet — enter interests and click the button above.</div>
 
-      <!-- Submit -->
-      <button type="submit"
-        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold">
-        Get Career Suggestions
-      </button>
-    </form>
-
-    <!-- Placeholder for Results -->
-    <div id="results" class="mt-6 bg-gray-100 p-4 rounded-lg text-gray-800 hidden">
-      <h3 class="font-bold mb-2">Suggested Careers:</h3>
-      <p id="results-text">AI-powered suggestions will appear here...</p>
+      <div class="small">Note: this page sends a request to <code>https://careerguidance-backend.onrender.com/api/suggestions</code>.</div>
     </div>
   </div>
 
   <script>
-    // Handle form submission with JavaScript (prevent full reload)
-    document.getElementById("careerForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    (function () {
+      // === CONFIG: change endpoint only if needed ===
+      const API_ENDPOINT = "https://careerguidance-backend.onrender.com/api/suggestions";
 
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
+      // DOM
+      const input = document.getElementById("preferencesInput");
+      const btn = document.getElementById("suggestBtn");
+      const statusEl = document.getElementById("status");
+      const resultEl = document.getElementById("result");
 
-      // For now just display entered values (later: call backend/AI)
-      document.getElementById("results").classList.remove("hidden");
-      document.getElementById("results-text").textContent =
-        `Based on your skills (${data.skills}), interests (${data.interests}), and preference for ${data.workstyle} work, we will show AI-powered career suggestions here.`;
-    });
+      // helper: show status message (text, visible boolean, asError boolean)
+      function showStatus(text = "", visible = true, asError = false) {
+        if (!visible) {
+          statusEl.style.display = "none";
+          statusEl.innerHTML = "";
+          return;
+        }
+        statusEl.style.display = "block";
+        statusEl.style.background = asError ? "#fff7f0" : "#f0f7ff";
+        statusEl.style.color = asError ? "#7a2e00" : "#073763";
+        statusEl.style.border = asError ? "1px solid #ffd9c3" : "1px solid #dbeafe";
+        statusEl.innerHTML = text;
+      }
+
+      // helper: set result text
+      function showResult(text) {
+        resultEl.textContent = text;
+      }
+
+      // fetch with timeout using AbortController
+      async function postWithTimeout(url, bodyJson, timeoutMs = 25000) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(bodyJson),
+            signal: controller.signal,
+            // credentials: "include" // not needed for public API
+          });
+          clearTimeout(id);
+          return res;
+        } catch (err) {
+          clearTimeout(id);
+          throw err;
+        }
+      }
+
+      // Main: send preferences and show suggestions
+      async function getCareerSuggestions() {
+        const pref = input.value.trim();
+        if (!pref) {
+          showStatus("Please type your interests first.", true, true);
+          return;
+        }
+
+        // UI lock
+        btn.disabled = true;
+        input.disabled = true;
+        showStatus('<span class="spinner"></span>Generating suggestions — this may take a few seconds...', true, false);
+        showResult(""); // clear previous
+
+        try {
+          const response = await postWithTimeout(API_ENDPOINT, { preferences: pref }, 30000);
+
+          // network failure (fetch returned but no HTTP object?) handled by catch
+          if (!response) throw new Error("No response from server");
+
+          // If server returns non-JSON or error, attempt to parse
+          let data;
+          try {
+            data = await response.json();
+          } catch (parseErr) {
+            const raw = await response.text();
+            throw new Error("Invalid JSON from server: " + raw);
+          }
+
+          if (!response.ok) {
+            // server returned an error status
+            const serverMsg = data?.error?.message || data?.error || JSON.stringify(data);
+            throw new Error("Server error: " + serverMsg + " (HTTP " + response.status + ")");
+          }
+
+          // success path
+          const suggestions = data?.suggestions || data?.message || JSON.stringify(data);
+          showStatus("", false); // hide status
+          showResult(suggestions);
+        } catch (err) {
+          // differentiate errors for better messages
+          console.error("Fetch/error:", err);
+          if (err.name === "AbortError") {
+            showStatus("Request timed out. Please try again.", true, true);
+          } else if (err.message && err.message.includes("Failed to fetch")) {
+            showStatus("Network error or CORS issue: cannot reach the API endpoint.", true, true);
+          } else {
+            // generic fallback
+            showStatus("🚨 Error connecting to server. " + (err.message || ""), true, true);
+          }
+          showResult(""); // clear result
+        } finally {
+          btn.disabled = false;
+          input.disabled = false;
+        }
+      }
+
+      // hookup
+      btn.addEventListener("click", getCareerSuggestions);
+
+      // allow Enter key in input to trigger
+      input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          getCareerSuggestions();
+        }
+      });
+
+      // optional: if you want a friendly placeholder/example when page loads
+      input.placeholder = "e.g. creative, technology, art, remote work";
+
+      // initial state
+      showStatus("", false);
+      showResult("No suggestions yet — enter interests and click the button above.");
+    })();
   </script>
 </body>
 </html>
