@@ -41,10 +41,14 @@
       const interests = document.getElementById("interests").value;
       const workstyle = document.getElementById("workstyle").value;
 
-      const response = await fetch("/api/career-suggestions", {
+      const response = await fetch("/api/suggestions", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ skills, interests, workstyle })
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          preferences: `${skills}, ${interests}, prefers ${workstyle} work`
+        })
       });
 
       const data = await response.json();
